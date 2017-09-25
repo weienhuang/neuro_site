@@ -170,7 +170,7 @@ def detail(request, page, pmid):
 	return render(request, 'neurosite/detail.html', context)
 
 def getNeighbor(pmid):
-	uri = "mongodb://ehang:12345677@140.117.69.70:30241/Pattern"
+	uri = 'connect information'
 	client = MongoClient(uri)
 	db = client.Pattern
 	collection = db.neurosite_medline
