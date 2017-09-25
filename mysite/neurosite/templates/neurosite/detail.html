@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+	 	<!-- Required meta tags always come first --
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Title Page</title>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<style>
+			body {
+				padding-top: 2rem;
+				padding-bottom: 2rem;
+			}
+			hr {
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+				border: 0;
+				border-top: 1px solid rgba(0, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-6">
+					<h1>Neurotoxin CurateSite</h1>
+				</div>
+				<div class="col-6 text-right">
+					<!-- <a href="/neurosite/{{page}}/">Go back</a> -->
+					<a href="/neurosite/{{page}}/" class="btn btn-primary">menu</a>
+					{% if neighbor.prev_page > 0 %}
+					<a href="/neurosite/{{neighbor.prev_page}}/detail/{{neighbor.prev_pmid}}/" class="btn btn-success">
+					prev</a>
+					{%endif%}
+					{% if neighbor.next_page > 0 %}
+					<a href="/neurosite/{{neighbor.next_page}}/detail/{{neighbor.next_pmid}}/" class="btn btn-info">next</a>
+					{%endif%}
+				</div>
+			</div>
+			<hr/>
+			<div class="row">
+				<div class="col-12">
+					<h2 class="text-xs-center">{% autoescape off %} {{ title }} {% endautoescape %}</h2>
+					<p style="font-size: 1.3em;">{% autoescape off %} {{ display_abst }} {% endautoescape %}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<table class="table">
+						<thead class="thead-inverse">
+							<tr>
+								<th>Entity Type</th>
+								<th>Entity Mention</th>
+								<th>Concept ID</th>
+								<th>Link</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for entity in test_entities %}
+								{% if entity.type == 'Disease' %}
+									<tr class="table-danger">
+								{% elif entity.type == 'Chemical' %}
+									<tr class="table-info">
+								{% elif entity.type == 'Species' %}
+									<tr class="table-warning">
+								{% elif entity.type == 'Gene' %}
+									<tr class="table-success">
+								{% else %}
+									<tr class="table-active">
+								{% endif %}
+										<td>{{entity.type}}</td>
+										<td>
+											{% for m in entity.mention %}
+												{{m}}<br>
+											{% endfor %}
+										</td>
+										<td>{{entity.conceptid}}</td>
+										<td>
+											{% if entity.type == 'Disease' %}
+												<a target="_blank" href="http://ctdbase.org/basicQuery.go?bqCat=disease&bq={{entity.conceptid}}">Link</a>
+											{% elif entity.type == 'Chemical' %}
+												<a target="_blank" href="http://www.nlm.nih.gov/cgi/mesh/2014/MB_cgi?field=uid&term={{entity.conceptid}}">Link</a>
+											{% elif entity.type == 'Species' %}
+												<a target="_blank" href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name={{entity.conceptid}}">Link</a>
+											{% elif entity.type == 'Gene' %}
+												<a target="_blank" href="https://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&term={{entity.conceptid}}">Link</a>
+											{% else %}
+												<a href="#">Link</a>
+											{% endif %}
+										</td>
+									</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<div class="col">
+					<h3>Is this article mainly talking about neurotoxin? </h3>
+					<form action="#">
+						<div class="form-check">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="relatedcheck" value="T">&nbsp;Yes
+							</label>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="relatedcheck" value="F">&nbsp;No
+							</label>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+					<hr>
+					<h3>Please tag some topics metioned in this article.<br><small>(Use '#' to seperate each topic.)</small></h3>
+					<form action="#">
+						<div class="form-group">
+							<textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+	</body>
+</html>

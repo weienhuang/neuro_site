@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+	 	<!-- Required meta tags always come first --
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Title Page</title>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+		<style>
+			body {
+				padding-top: 2rem;
+				padding-bottom: 2rem;
+			}
+			hr {
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+				border: 0;
+				border-top: 1px solid rgba(0, 0, 0, 0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="text-xs-center">Neurotoxin CurateSite</h1>
+			{{test}}
+			<hr>
+			{% if medline_list %}
+				<table class="table">
+					<thead class="thead-inverse">
+						<tr class="d-flex">
+							<th class="col-8">Title</th>
+							<th class="col-2">Short Details</th>
+							<th class="col-2">PubMed Link</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for medline in medline_list %}
+							<tr class="d-flex">
+								<td class="col-8"><a href="/neurosite/{{page}}/detail/{{medline.EntrezUID}}">{{ medline.Title }}</a></td>
+								<td class="col-2">{{ medline.ShortDetails }}</td>
+								<td class="col-2"><a href="https://www.ncbi.nlm.nih.gov{{medline.URL}}">{{ medline.URL}}</a></td>
+							<tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<p>No medlines are available</p>
+			{% endif %}
+			<nav>
+				<ul class="pagination">
+					<li class="page-item">
+						<a href="/neurosite/{{prepage}}/" class="page-link">
+							<span aria-hidden="true">&laquo;</span>
+							<span class="sr-only">Previous</span>
+						</a>
+					</li>
+					{% for i in page_range %}
+						{% if i == page %}
+							<li class="page-item active">
+								<span class="page-link">
+									{{i}}
+									<span class="sr-only">(current)</span>
+								</span>
+							</li>
+						{% else %}
+							<li class="page-item">
+								<a href="/neurosite/{{i}}/" class="page-link">{{i}}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+					<li class="page-item">
+						<a href="/neurosite/{{nextpage}}/" class="page-link">
+							<span aria-hidden="true">&raquo;</span>
+							<span class="sr-only">Next</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+	</body>
+</html>
