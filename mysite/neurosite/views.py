@@ -14,12 +14,7 @@ def index(request, page = None):
 
 	# Get current page data
 	medline_list = MedLine.objects.raw_query({'$and':[{'objtype':{'$all':['Chemical', 'Disease']}}, {'bestmatch':True}]}).order_by('id')[(page-1)*10:(page)*10]
-	# uri = "mongodb://ehang:12345677@140.117.69.70:30241/Pattern"
-	# client = MongoClient(uri)
-	# db = client.Pattern
-	# collection = db.neurosite_medline
-	# medline_list = list(collection.find({'$and':[{'objtype':{'$all':['Chemical', 'Disease']}}, {'bestmatch':True}]}))[(page-1)*10:(page)*10]
-
+	
 	# Page setting
 	startpage = page - 5
 	if startpage < 1:
